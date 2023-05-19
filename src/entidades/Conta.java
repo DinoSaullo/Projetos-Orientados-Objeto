@@ -3,68 +3,36 @@ package entidades;
 public class Conta {
 
 	private int numero;
-	private String cliente;
+	private Cliente cliente = new Cliente();
 	private double saldo;
 
-	@Override
-	public String toString() {
-
-		return "Conta: " + numero + " - Cliente: " + cliente + " - Saldo: " + String.format("R$%.2f", saldo);
-	}
-
-	public void saca(double valorSaque) {
-
-		if (valorSaque <= this.saldo) {
-
-			this.saldo -= valorSaque;
-
-			System.out.println("O saque foi realizado com sucesso.");
-
-		} else {
-
-			System.out.printf("Desculpe %s, mas você não possui saldo suficiente.\n", this.cliente);
-		}
-	}
-
-	public String deposita(double valorDeposito) {
-
-		this.saldo += valorDeposito;
-
-		return "O deposito foi realizado com sucesso.";
-	}
-
-	public Conta(int numero, String nome, double valorDeposito) {
+	public Conta(int numero, Cliente cliente, double valorDeposito) {
 
 		this.numero = numero;
 
-		this.cliente = nome;
+		this.cliente = cliente;
 
 		this.saldo = valorDeposito;
 
-		System.out.println();
-		System.out.println("A conta foi criada.");
+		this.linhaEmBranco();
+		this.mensagem("A conta foi criada.");
 	}
 
-	public Conta(int numero, String nome) {
+	public Conta(int numero, Cliente cliente) {
 
 		this.numero = numero;
 
-		this.cliente = nome;
+		this.cliente = cliente;
 
 		this.saldo = 0;
 
-		System.out.println();
-		System.out.println("A conta foi criada.");
+		this.linhaEmBranco();
+		this.mensagem("A conta foi criada.");
 	}
 
-	public String getCliente() {
+	public String getClienteNome() {
 
-		return cliente;
-	}
-
-	public void setCliente(String cliente) {
-
-		this.cliente = cliente;
+		return this.cliente.toString();
 	}
 
 	public double getSaldo() {
@@ -77,4 +45,40 @@ public class Conta {
 		return numero;
 	}
 
+	private void mensagem(String texto) {
+
+		System.out.println(texto);
+	}
+
+	private void linhaEmBranco() {
+
+		System.out.println();
+	}
+
+	public void saca(double valorSaque) {
+
+		if (valorSaque + 5.0f <= this.saldo) {
+
+			this.saldo -= valorSaque;
+
+			this.mensagem("O saque foi realizado com sucesso.");
+
+		} else {
+
+			this.mensagem(String.format("Desculpe %s, mas você não possui saldo suficiente.", this.cliente));
+		}
+	}
+
+	public String deposita(double valorDeposito) {
+
+		this.saldo += valorDeposito;
+
+		return "O deposito foi realizado com sucesso.";
+	}
+
+	@Override
+	public String toString() {
+
+		return "Conta: " + numero + " - Cliente: " + cliente.getNome() + " - Saldo: " + String.format("R$%.2f", saldo);
+	}
 }

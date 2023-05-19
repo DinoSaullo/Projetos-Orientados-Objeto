@@ -2,6 +2,7 @@ package aplicacao;
 
 import java.util.Scanner;
 
+import entidades.Cliente;
 import entidades.Conta;
 
 public class Programa {
@@ -11,48 +12,61 @@ public class Programa {
 		Scanner teclado = new Scanner(System.in);
 
 		System.out.println("Informe o número da conta: ");
-
-		int numeroConta = teclado.nextInt();
-
-		teclado.nextLine();
+		int numeroConta = Integer.parseInt(teclado.nextLine());
 
 		System.out.println("Informe o nome do cliente: ");
-
 		String nome = teclado.nextLine();
+		System.out.println("Informe o endereço do cliente: ");
+		String endereco = teclado.nextLine();
+		System.out.println("Informe o telefone do cliente: ");
+		String telefone = teclado.nextLine();
+		System.out.println("Informe a data de nascimento do cliente: ");
+		String dataNascimento = teclado.nextLine();
 
-		System.out.println("Será realizado um depósito inicial? (s/n)");
+		Cliente cliente = new Cliente(nome, endereco, telefone, dataNascimento);
+		infoCliente(cliente);
 
+		mensagem("Será realizado um depósito inicial? (s/n)");
 		char resposta = teclado.next().toLowerCase().charAt(0);
+
+		depositoInicial(numeroConta, cliente, resposta);
+
+		teclado.close();
+	}
+
+	private static void depositoInicial(int numeroConta, Cliente cliente, char resposta) {
+
+		Scanner teclado = new Scanner(System.in);
 
 		if (resposta == 's') {
 
-			System.out.println("Informe o valor do deposito inicial: ");
+			mensagem("Informe o valor do deposito inicial: ");
 
 			double depositoInicial = teclado.nextDouble();
 
-			Conta conta1 = new Conta(numeroConta, nome, depositoInicial);
+			Conta conta1 = new Conta(numeroConta, cliente, depositoInicial);
 
 			infoConta(conta1);
 
-			sacar(conta1, teclado);
-
-			depositar(conta1, teclado);
-
-			infoConta(conta1);
+//			sacar(conta1, teclado);
+//
+//			depositar(conta1, teclado);
+//
+//			infoConta(conta1);
 
 		} else {
 
-			Conta conta1 = new Conta(numeroConta, nome);
+			Conta conta1 = new Conta(numeroConta, cliente);
 
 			infoConta(conta1);
 
-			depositar(conta1, teclado);
+//			depositar(conta1, teclado);
 
-			infoConta(conta1);
-
-			sacar(conta1, teclado);
-
-			infoConta(conta1);
+//			infoConta(conta1);
+//
+//			sacar(conta1, teclado);
+//
+//			infoConta(conta1);
 		}
 
 		teclado.close();
@@ -60,31 +74,42 @@ public class Programa {
 
 	private static void infoConta(Conta conta) {
 
-		System.out.println(conta.toString());
+		mensagem(conta.toString());
 		System.out.println();
 	}
 
-	private static void sacar(Conta conta, Scanner teclado) {
+	private static void infoCliente(Cliente cliente) {
 
-		teclado.nextLine();
-
-		System.out.println("Informe o valor a ser sacado: ");
-
-		double valorSaque = teclado.nextDouble();
-
-		conta.saca(valorSaque);
-
+		mensagem(cliente.toString());
+		System.out.println();
 	}
 
-	private static void depositar(Conta conta, Scanner teclado) {
+//	private static void sacar(Conta conta, Scanner teclado) {
+//
+//		teclado.nextLine();
+//
+//		System.out.println("Informe o valor a ser sacado: ");
+//
+//		double valorSaque = teclado.nextDouble();
+//
+//		conta.saca(valorSaque);
+//
+//	}
 
-		teclado.nextLine();
+//	private static void depositar(Conta conta, Scanner teclado) {
+//
+//		teclado.nextLine();
+//
+//		System.out.println("Informe o valor a ser depositado: ");
+//
+//		double valorDeposito = teclado.nextDouble();
+//
+//		System.out.println(conta.deposita(valorDeposito));
+//
+//	}
 
-		System.out.println("Informe o valor a ser depositado: ");
+	private static void mensagem(String texto) {
 
-		double valorDeposito = teclado.nextDouble();
-
-		System.out.println(conta.deposita(valorDeposito));
-
+		System.out.println(texto);
 	}
 }
